@@ -1,3 +1,47 @@
+// Validation
+interface ValidateProps {
+  value: string | number;
+  required?: boolean;
+  minLength?: number;
+  maxLength?: number;
+  min?: number;
+  max?: number;
+}
+
+function validate(validatebleInput: ValidateProps) {
+  let isValid = true;
+  if (validatebleInput.required) {
+    isValid = isValid && validatebleInput.value.toString().trim().length !== 0;
+  }
+  if (
+    validatebleInput.minLength != null &&
+    typeof validatebleInput.value === "string"
+  ) {
+    isValid =
+      isValid && validatebleInput.value.length >= validatebleInput.minLength;
+  }
+  if (
+    validatebleInput.maxLength != null &&
+    typeof validatebleInput.value === "string"
+  ) {
+    isValid =
+      isValid && validatebleInput.value.length <= validatebleInput.maxLength;
+  }
+  if (
+    validatebleInput.min != null &&
+    typeof validatebleInput.value === "number"
+  ) {
+    isValid = isValid && validatebleInput.value >= validatebleInput.min;
+  }
+  if (
+    validatebleInput.max != null &&
+    typeof validatebleInput.value === "number"
+  ) {
+    isValid = isValid && validatebleInput.value <= validatebleInput.max;
+  }
+  return isValid;
+}
+
 // Decorators
 function autobind(_: any, _2: string, descriptor: PropertyDescriptor) {
   const originalMethod = descriptor.value;
@@ -51,8 +95,26 @@ class PJInput {
     const enteredDescription = this.descriptionInput.value;
     const enteredPeople = this.peopleInput.value;
 
+    const titleValidatable: ValidateProps = {
+      value: enteredTitle,
+      required: true,
+    };
+    const descriptionValidatable: ValidateProps = {
+      value: enteredDescription,
+      required: true,
+      minLength: 5,
+    };
+    const peopleValidatable: ValidateProps = {
+      value: +enteredPeople,
+      required: true,
+      min: 1,
+      max: 10,
+    };
+
     if (
-      validate({value: enteredTitle, enteredDescription, enteredPeople})
+      !validate(titleValidatable) ||
+      !validate(descriptionValidatable) ||
+      !validate(peopleValidatable)
     ) {
       alert("В полях ввода допущена ошибка, попробуйте ещё раз!");
       return;
@@ -73,7 +135,7 @@ class PJInput {
     const userInput = this.gatherUserInput();
     if (Array.isArray(userInput)) {
       const [title, description, people] = userInput;
-      console.log(title, description, people)
+      console.log(title, description, people);
       this.clearInputs();
     }
   }

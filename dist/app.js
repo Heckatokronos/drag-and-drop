@@ -5,6 +5,31 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+function validate(validatebleInput) {
+    let isValid = true;
+    if (validatebleInput.required) {
+        isValid = isValid && validatebleInput.value.toString().trim().length !== 0;
+    }
+    if (validatebleInput.minLength != null &&
+        typeof validatebleInput.value === "string") {
+        isValid =
+            isValid && validatebleInput.value.length >= validatebleInput.minLength;
+    }
+    if (validatebleInput.maxLength != null &&
+        typeof validatebleInput.value === "string") {
+        isValid =
+            isValid && validatebleInput.value.length <= validatebleInput.maxLength;
+    }
+    if (validatebleInput.min != null &&
+        typeof validatebleInput.value === "number") {
+        isValid = isValid && validatebleInput.value >= validatebleInput.min;
+    }
+    if (validatebleInput.max != null &&
+        typeof validatebleInput.value === "number") {
+        isValid = isValid && validatebleInput.value <= validatebleInput.max;
+    }
+    return isValid;
+}
 function autobind(_, _2, descriptor) {
     const originalMethod = descriptor.value;
     const adjDescriptor = {
@@ -39,9 +64,24 @@ class PJInput {
         const enteredTitle = this.titleInput.value;
         const enteredDescription = this.descriptionInput.value;
         const enteredPeople = this.peopleInput.value;
-        if (enteredTitle.trim().length === 0 ||
-            enteredDescription.trim().length === 0 ||
-            enteredPeople.trim().length === 0) {
+        const titleValidatable = {
+            value: enteredTitle,
+            required: true,
+        };
+        const descriptionValidatable = {
+            value: enteredDescription,
+            required: true,
+            minLength: 5,
+        };
+        const peopleValidatable = {
+            value: +enteredPeople,
+            required: true,
+            min: 1,
+            max: 10,
+        };
+        if (!validate(titleValidatable) ||
+            !validate(descriptionValidatable) ||
+            !validate(peopleValidatable)) {
             alert("В полях ввода допущена ошибка, попробуйте ещё раз!");
             return;
         }
