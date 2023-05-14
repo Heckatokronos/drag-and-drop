@@ -15,7 +15,28 @@
           <label for="title"> Название </label>
           <input type="text" id="title" />
         </div>
+        <div class="form-control">
+          <label for="description"> Описание </label>
+          <textarea id="description" rows="3"></textarea>
+        </div>
+        <div class="form-control">
+          <label for="people"> Люди </label>
+          <input type="number" id="people" step="1" min="0" max="10" />
+        </div>
+        <button>Добавить проект</button>
       </form>
     </template>
+    <template id="single-project">
+      <li></li>
+    </template>
+    <template id="project-list">
+      <section class="projects">
+        <header>
+          <h2></h2>
+        </header>
+        <ul></ul>
+      </section>
+    </template>
+    <div id="app"></div>
   </body>
 </html>
