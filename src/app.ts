@@ -1,9 +1,5 @@
 // Decorators
-function autobind(
-  _: any,
-  _2: string,
-  descriptor: PropertyDescriptor
-) {
+function autobind(_: any, _2: string, descriptor: PropertyDescriptor) {
   const originalMethod = descriptor.value;
   const adjDescriptor: PropertyDescriptor = {
     configurable: true,
@@ -50,9 +46,36 @@ class PJInput {
     this.attach();
   }
 
+  private gatherUserInput(): [string, string, number] | void {
+    const enteredTitle = this.titleInput.value;
+    const enteredDescription = this.descriptionInput.value;
+    const enteredPeople = this.peopleInput.value;
+
+    if (
+      validate({value: enteredTitle, enteredDescription, enteredPeople})
+    ) {
+      alert("В полях ввода допущена ошибка, попробуйте ещё раз!");
+      return;
+    } else {
+      return [enteredTitle, enteredDescription, +enteredPeople];
+    }
+  }
+
+  private clearInputs() {
+    this.titleInput.value = "";
+    this.descriptionInput.value = "";
+    this.peopleInput.value = "";
+  }
+
   @autobind
   private submit(event: Event) {
     event.preventDefault();
+    const userInput = this.gatherUserInput();
+    if (Array.isArray(userInput)) {
+      const [title, description, people] = userInput;
+      console.log(title, description, people)
+      this.clearInputs();
+    }
   }
 
   private configure() {

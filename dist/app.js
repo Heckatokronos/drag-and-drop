@@ -35,8 +35,33 @@ class PJInput {
         this.configure();
         this.attach();
     }
+    gatherUserInput() {
+        const enteredTitle = this.titleInput.value;
+        const enteredDescription = this.descriptionInput.value;
+        const enteredPeople = this.peopleInput.value;
+        if (enteredTitle.trim().length === 0 ||
+            enteredDescription.trim().length === 0 ||
+            enteredPeople.trim().length === 0) {
+            alert("В полях ввода допущена ошибка, попробуйте ещё раз!");
+            return;
+        }
+        else {
+            return [enteredTitle, enteredDescription, +enteredPeople];
+        }
+    }
+    clearInputs() {
+        this.titleInput.value = "";
+        this.descriptionInput.value = "";
+        this.peopleInput.value = "";
+    }
     submit(event) {
         event.preventDefault();
+        const userInput = this.gatherUserInput();
+        if (Array.isArray(userInput)) {
+            const [title, description, people] = userInput;
+            console.log(title, description, people);
+            this.clearInputs();
+        }
     }
     configure() {
         this.element.addEventListener("submit", this.submit);
