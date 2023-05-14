@@ -14,6 +14,7 @@ class PJInput {
       true
     );
     this.element = importedHtml.firstElementChild as HTMLFormElement;
+    this.element.id = "user-input"
     this.attach();
   }
 

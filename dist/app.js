@@ -8,6 +8,7 @@ class PJInput {
         this.hostElement = document.getElementById("app");
         const importedHtml = document.importNode(this.templateElement.content, true);
         this.element = importedHtml.firstElementChild;
+        this.element.id = "user-input";
         this.attach();
     }
     attach() {
