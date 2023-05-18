@@ -1,3 +1,9 @@
+// State manager
+
+class ProjectState {
+  
+}
+
 // Validation
 interface ValidateProps {
   value: string | number;
@@ -135,7 +141,7 @@ class PJInput {
     const userInput = this.gatherUserInput();
     if (Array.isArray(userInput)) {
       const [title, description, people] = userInput;
-      console.log(title, description, people);
+
       this.clearInputs();
     }
   }
